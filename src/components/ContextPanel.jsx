@@ -1,17 +1,21 @@
 import React from 'react';
 import { useChatTree } from '../hooks/useChatTree';
 import { getContextSummary } from '../utils/contextCompiler';
+import { getPathToRoot } from '../utils/treeUtils';
 
 /**
  * Context panel component
  * Shows information about the current context and pinned nodes
  */
-function ContextPanel() {
+function ContextPanel({ showConversationOnly = false }) {
   const { nodes, activeNodeId, selectedNodeId, togglePin } = useChatTree();
 
   const contextSummary = activeNodeId ? getContextSummary(nodes, activeNodeId) : null;
   const pinnedNodes = nodes.filter(node => node.metadata.isPinned);
   const selectedNode = nodes.find(node => node.id === selectedNodeId);
+  
+  // Get full conversation path when a node is selected
+  const fullConversation = selectedNodeId ? getPathToRoot(nodes, selectedNodeId) : [];
 
   const formatTimestamp = (timestamp) => {
     return new Date(timestamp).toLocaleString();
@@ -21,10 +25,51 @@ function ContextPanel() {
     return content.length > maxLength ? `${content.substring(0, maxLength)}...` : content;
   };
 
+  // If only showing conversation, return just the conversation part
+  if (showConversationOnly) {
+    return (
+      <div className="conversation-panel-content">
+        {fullConversation.length > 0 ? (
+          <div className="full-conversation">
+            <h4>Full Chat Conversation</h4>
+            <div className="conversation-container">
+              {fullConversation.map((node, index) => (
+                <div 
+                  key={node.id} 
+                  className={`conversation-message ${node.role} ${node.id === selectedNodeId ? 'selected' : ''}`}
+                >
+                  <div className="message-header">
+                    <span className="message-role">{node.role.toUpperCase()}</span>
+                    <span className="message-timestamp">
+                      {formatTimestamp(node.metadata.timestamp)}
+                    </span>
+                  </div>
+                  <div className="message-content">
+                    {node.content}
+                  </div>
+                  {node.metadata.modelUsed && (
+                    <div className="message-meta">
+                      <span className="model-info">Model: {node.metadata.modelUsed}</span>
+                      {node.metadata.tokenCount > 0 && (
+                        <span className="token-info">Tokens: {node.metadata.tokenCount}</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="no-conversation">
+            <p>Click on a node to view the full conversation.</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="context-panel">
-      <h3>Context Information</h3>
-      
       {contextSummary && (
         <div className="context-summary">
           <div className="summary-stats">

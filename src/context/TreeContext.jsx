@@ -122,17 +122,27 @@ function treeReducer(state, action) {
     case TREE_ACTIONS.TOGGLE_PIN:
       return {
         ...state,
-        nodes: state.nodes.map(node =>
-          node.id === action.payload
-            ? {
-                ...node,
-                metadata: {
-                  ...node.metadata,
-                  isPinned: !node.metadata.isPinned
-                }
+        nodes: state.nodes.map(node => {
+          if (node.id === action.payload) {
+            // Toggle the clicked node's pin state
+            return {
+              ...node,
+              metadata: {
+                ...node.metadata,
+                isPinned: !node.metadata.isPinned
               }
-            : node
-        )
+            };
+          } else {
+            // Unpin all other nodes to enforce single-pin constraint
+            return {
+              ...node,
+              metadata: {
+                ...node.metadata,
+                isPinned: false
+              }
+            };
+          }
+        })
       };
     
     case TREE_ACTIONS.LOAD_PROJECT:

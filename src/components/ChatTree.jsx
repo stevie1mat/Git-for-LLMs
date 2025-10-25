@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
   Background,
   useNodesState,
   useEdgesState,
-  ReactFlowProvider
+  ReactFlowProvider,
+  useReactFlow
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -21,10 +22,9 @@ const nodeTypes = {
 };
 
 /**
- * Main ChatTree component
- * Renders the interactive tree visualization using React Flow
+ * Inner component that has access to React Flow instance
  */
-function ChatTree() {
+function ChatTreeInner() {
   const {
     nodes,
     activeNodeId,
@@ -40,10 +40,37 @@ function ChatTree() {
   } = useChatTree();
 
   const { sendToGemini, sendToMockLLM, isLoading, error } = useLLM();
+  
+  // State for collapsible context panel
+  const [isContextPanelCollapsed, setIsContextPanelCollapsed] = useState(false);
 
   // Convert tree nodes to React Flow format
   const [reactFlowNodes, setNodes, onNodesChange] = useNodesState([]);
   const [reactFlowEdges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  // Get React Flow instance for scrolling
+  const { fitView, getNode } = useReactFlow();
+
+  // Function to scroll to a specific node
+  const scrollToNode = useCallback((nodeId) => {
+    const node = getNode(nodeId);
+    if (node) {
+      // Use fitView with specific node
+      fitView({ 
+        nodes: [{ id: nodeId }], 
+        duration: 800,
+        padding: 0.1 
+      });
+    }
+  }, [fitView, getNode]);
+
+  // Expose scrollToNode function globally for SearchBar to use
+  useEffect(() => {
+    window.scrollToNode = scrollToNode;
+    return () => {
+      delete window.scrollToNode;
+    };
+  }, [scrollToNode]);
 
   // Calculate positions for all nodes to create proper tree structure
   const calculateAllNodePositions = useCallback(() => {
@@ -235,7 +262,26 @@ function ChatTree() {
       </div>
       
       <div className="chattree-sidebar">
-        <ContextPanel />
+        {/* Collapsible Context Panel */}
+        <div className={`context-panel-container ${isContextPanelCollapsed ? 'collapsed' : ''}`}>
+          <div className="context-panel-header">
+            <h3>Context Information</h3>
+            <button 
+              className="collapse-toggle"
+              onClick={() => setIsContextPanelCollapsed(!isContextPanelCollapsed)}
+              title={isContextPanelCollapsed ? 'Expand context panel' : 'Collapse context panel'}
+            >
+              {isContextPanelCollapsed ? '▶' : '▼'}
+            </button>
+          </div>
+          {!isContextPanelCollapsed && <ContextPanel />}
+        </div>
+        
+        {/* Conversation Panel */}
+        <div className="conversation-panel">
+          <ContextPanel showConversationOnly={true} />
+        </div>
+        
         <MessageInput 
           onSendMessage={handleSendMessage}
           onBranchFromNode={handleBranchFromNode}
@@ -251,7 +297,7 @@ function ChatTree() {
 export default function ChatTreeWithProvider() {
   return (
     <ReactFlowProvider>
-      <ChatTree />
+      <ChatTreeInner />
     </ReactFlowProvider>
   );
 }

@@ -38,33 +38,34 @@ const MessageNode = memo(({ data }) => {
 
   const getNodeStyle = () => {
     const baseStyle = {
-      padding: '12px',
-      borderRadius: '8px',
+      padding: '16px',
+      borderRadius: '12px',
       border: '2px solid',
-      minWidth: '200px',
-      maxWidth: '300px',
+      minWidth: '220px',
+      maxWidth: '320px',
       cursor: 'pointer',
-      transition: 'all 0.2s ease',
-      position: 'relative'
+      transition: 'all 0.3s ease',
+      position: 'relative',
+      background: '#111111'
     };
 
     // Special styling for sub-branches
     if (isSubBranch) {
       const subBranchStyle = {
         ...baseStyle,
-        borderColor: '#3b82f6',
-        backgroundColor: '#f0f9ff',
+        borderColor: '#ffffff',
+        backgroundColor: '#1a1a1a',
         borderStyle: 'dashed',
         borderWidth: '2px',
-        boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1)'
+        boxShadow: '0 4px 20px rgba(255, 255, 255, 0.1)'
       };
       
       if (isActive) {
         return {
           ...subBranchStyle,
-          borderColor: '#1d4ed8',
-          backgroundColor: '#dbeafe',
-          boxShadow: '0 0 0 3px rgba(29, 78, 216, 0.2)'
+          borderColor: '#ffffff',
+          backgroundColor: '#2a2a2a',
+          boxShadow: '0 0 0 3px rgba(255, 255, 255, 0.2)'
         };
       }
       
@@ -74,41 +75,42 @@ const MessageNode = memo(({ data }) => {
     if (isActive) {
       return {
         ...baseStyle,
-        borderColor: '#3b82f6',
-        backgroundColor: '#eff6ff',
-        boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)'
+        borderColor: '#ffffff',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 0 0 3px rgba(255, 255, 255, 0.2)'
       };
     }
 
     if (isSelected) {
       return {
         ...baseStyle,
-        borderColor: '#10b981',
-        backgroundColor: '#f0fdf4'
+        borderColor: '#cccccc',
+        backgroundColor: '#1a1a1a',
+        boxShadow: '0 2px 12px rgba(255, 255, 255, 0.1)'
       };
     }
 
     if (role === 'user') {
       return {
         ...baseStyle,
-        borderColor: '#6366f1',
-        backgroundColor: '#f8fafc'
+        borderColor: '#333333',
+        backgroundColor: '#0f0f0f'
       };
     }
 
     return {
       ...baseStyle,
-      borderColor: '#64748b',
-      backgroundColor: '#f1f5f9'
+      borderColor: '#2a2a2a',
+      backgroundColor: '#111111'
     };
   };
 
   const getContentStyle = () => {
     return {
       fontSize: '14px',
-      lineHeight: '1.4',
-      color: '#374151',
-      marginBottom: '8px',
+      lineHeight: '1.5',
+      color: '#ffffff',
+      marginBottom: '10px',
       wordWrap: 'break-word'
     };
   };
@@ -116,7 +118,7 @@ const MessageNode = memo(({ data }) => {
   const getMetadataStyle = () => {
     return {
       fontSize: '11px',
-      color: '#6b7280',
+      color: '#888888',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center'
@@ -137,13 +139,14 @@ const MessageNode = memo(({ data }) => {
         <button
           onClick={handlePinToggle}
           style={{
-            background: metadata.isPinned ? '#fbbf24' : '#e5e7eb',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '2px 6px',
+            background: metadata.isPinned ? '#ffffff' : '#2a2a2a',
+            border: '1px solid #444444',
+            borderRadius: '6px',
+            padding: '4px 8px',
             fontSize: '10px',
             cursor: 'pointer',
-            color: metadata.isPinned ? '#92400e' : '#6b7280'
+            color: metadata.isPinned ? '#000000' : '#ffffff',
+            transition: 'all 0.2s ease'
           }}
           title={metadata.isPinned ? 'Unpin from context' : 'Pin to context'}
         >
@@ -154,13 +157,14 @@ const MessageNode = memo(({ data }) => {
         <button
           onClick={handleDelete}
           style={{
-            background: '#fecaca',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '2px 6px',
+            background: '#2a2a2a',
+            border: '1px solid #444444',
+            borderRadius: '6px',
+            padding: '4px 8px',
             fontSize: '10px',
             cursor: 'pointer',
-            color: '#dc2626'
+            color: '#ff6666',
+            transition: 'all 0.2s ease'
           }}
           title="Delete this branch and all sub-branches"
         >
@@ -171,17 +175,18 @@ const MessageNode = memo(({ data }) => {
       {/* Role indicator */}
       <div style={{
         fontSize: '10px',
-        fontWeight: 'bold',
-        color: role === 'user' ? '#6366f1' : '#64748b',
-        marginBottom: '4px',
+        fontWeight: '500',
+        color: role === 'user' ? '#ffffff' : '#cccccc',
+        marginBottom: '6px',
         textTransform: 'uppercase',
         display: 'flex',
         alignItems: 'center',
-        gap: '4px'
+        gap: '6px',
+        letterSpacing: '0.5px'
       }}>
-        {isSubBranch && <span style={{ color: '#3b82f6' }}>↳</span>}
+        {isSubBranch && <span style={{ color: '#ffffff' }}>↳</span>}
         {role}
-        {isSubBranch && <span style={{ color: '#3b82f6', fontSize: '8px' }}>SUB</span>}
+        {isSubBranch && <span style={{ color: '#ffffff', fontSize: '8px', background: '#333333', padding: '1px 4px', borderRadius: '3px' }}>SUB</span>}
       </div>
 
       {/* Message content */}

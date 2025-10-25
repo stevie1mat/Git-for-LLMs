@@ -30,14 +30,12 @@ export function useChatTree() {
     }
 
     try {
-      // Check if there are any pinned nodes
-      const pinnedNodes = nodes.filter(node => node.metadata.isPinned);
+      // Check if there is a pinned node (only one can be pinned at a time)
+      const pinnedNode = nodes.find(node => node.metadata.isPinned);
       
-      // If there are pinned nodes, create sub-nodes from the most recently pinned node
+      // If there is a pinned node, create sub-nodes from it
       // Otherwise, use the active node as before
-      const parentNodeId = pinnedNodes.length > 0 
-        ? pinnedNodes[pinnedNodes.length - 1].id  // Use the most recently pinned node
-        : activeNodeId;
+      const parentNodeId = pinnedNode ? pinnedNode.id : activeNodeId;
 
       // Create user message node
       const userNode = addNode({
@@ -61,7 +59,7 @@ export function useChatTree() {
           content: aiResponse,
           metadata: { 
             isPinned: false,
-            modelUsed: 'gpt-4',
+            modelUsed: 'gemini-2.0-flash-exp',
             tokenCount: Math.ceil(aiResponse.length / 4) // Rough estimation
           }
         });
@@ -108,7 +106,7 @@ export function useChatTree() {
           content: aiResponse,
           metadata: { 
             isPinned: false,
-            modelUsed: 'gpt-4',
+            modelUsed: 'gemini-2.0-flash-exp',
             tokenCount: Math.ceil(aiResponse.length / 4)
           }
         });
