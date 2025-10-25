@@ -1,0 +1,257 @@
+import React, { useCallback, useEffect } from 'react';
+import ReactFlow, {
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  ReactFlowProvider
+} from 'reactflow';
+import 'reactflow/dist/style.css';
+
+import { useChatTree } from '../hooks/useChatTree';
+import { useLLM } from '../hooks/useLLM';
+import MessageNode from './MessageNode';
+import MessageInput from './MessageInput';
+import ContextPanel from './ContextPanel';
+
+// Custom node types
+const nodeTypes = {
+  messageNode: MessageNode,
+};
+
+/**
+ * Main ChatTree component
+ * Renders the interactive tree visualization using React Flow
+ */
+function ChatTree() {
+  const {
+    nodes,
+    activeNodeId,
+    selectedNodeId,
+    sendMessage,
+    branchFromNode,
+    setActiveNode,
+    setSelectedNode,
+    togglePin,
+    deleteNode,
+    createInitialNode,
+    getNodeDepth
+  } = useChatTree();
+
+  const { sendToGemini, sendToMockLLM, isLoading, error } = useLLM();
+
+  // Convert tree nodes to React Flow format
+  const [reactFlowNodes, setNodes, onNodesChange] = useNodesState([]);
+  const [reactFlowEdges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  // Calculate positions for all nodes to create proper tree structure
+  const calculateAllNodePositions = useCallback(() => {
+    const positions = new Map();
+    
+    // Process nodes in order of depth to ensure parents are calculated first
+    const sortedNodes = [...nodes].sort((a, b) => {
+      const depthA = getNodeDepth(a.id);
+      const depthB = getNodeDepth(b.id);
+      return depthA - depthB;
+    });
+    
+    sortedNodes.forEach(node => {
+      if (node.parentId === null) {
+        // Root node at center
+        positions.set(node.id, { x: 0, y: 0 });
+      } else {
+        // Get parent position
+        const parentPos = positions.get(node.parentId);
+        if (!parentPos) return;
+        
+        // Get all children of the same parent
+        const siblings = nodes.filter(n => n.parentId === node.parentId);
+        const siblingIndex = siblings.findIndex(n => n.id === node.id);
+        
+        // Calculate position relative to parent
+        const childSpacing = 400; // Increased spacing for better tree structure
+        const totalChildren = siblings.length;
+        const startX = parentPos.x - (totalChildren - 1) * childSpacing / 2;
+        
+        // Position children below and spread horizontally from parent
+        const x = startX + siblingIndex * childSpacing;
+        const y = parentPos.y + 300; // Increased vertical spacing
+        
+        positions.set(node.id, { x, y });
+      }
+    });
+    
+    return positions;
+  }, [nodes, getNodeDepth]);
+
+  // Calculate position for a specific node
+  const calculateNodePosition = useCallback((node) => {
+    const positions = calculateAllNodePositions();
+    return positions.get(node.id) || { x: 0, y: 0 };
+  }, [calculateAllNodePositions]);
+
+  // Initialize with root node if tree is empty
+  useEffect(() => {
+    if (nodes.length === 0) {
+      createInitialNode();
+    }
+  }, [nodes.length, createInitialNode]);
+
+  // Convert tree nodes to React Flow nodes
+  useEffect(() => {
+    const flowNodes = nodes.map(node => ({
+      id: node.id,
+      type: 'messageNode',
+      position: calculateNodePosition(node),
+      data: {
+        node,
+        isActive: node.id === activeNodeId,
+        isSelected: node.id === selectedNodeId,
+        depth: getNodeDepth(node.id),
+        onSelect: () => setSelectedNode(node.id),
+        onActivate: () => setActiveNode(node.id),
+        onTogglePin: () => togglePin(node.id),
+        onDelete: () => deleteNode(node.id)
+      }
+    }));
+
+    const flowEdges = nodes
+      .filter(node => node.parentId)
+      .map(node => {
+        const parentNode = nodes.find(n => n.id === node.parentId);
+        const isSubBranch = parentNode && parentNode.role === 'assistant';
+        const nodeDepth = getNodeDepth(node.id);
+        const isMainFlow = nodeDepth <= 2 && !isSubBranch;
+        
+        return {
+          id: `${node.parentId}-${node.id}`,
+          source: node.parentId,
+          target: node.id,
+          type: 'smoothstep',
+          animated: node.id === activeNodeId,
+          style: {
+            stroke: isSubBranch ? '#3b82f6' : (isMainFlow ? '#64748b' : '#10b981'),
+            strokeWidth: isSubBranch ? 3 : (isMainFlow ? 2 : 2.5),
+            strokeDasharray: isSubBranch ? '8,4' : (isMainFlow ? '0' : '4,2')
+          },
+          label: isSubBranch ? 'sub' : (isMainFlow ? '' : 'deep'),
+          labelStyle: {
+            fontSize: 9,
+            fill: isSubBranch ? '#3b82f6' : (isMainFlow ? '#64748b' : '#10b981')
+          }
+        };
+      });
+
+    setNodes(flowNodes);
+    setEdges(flowEdges);
+  }, [nodes, activeNodeId, selectedNodeId, setActiveNode, setSelectedNode, togglePin, deleteNode, getNodeDepth, calculateNodePosition, setNodes, setEdges]);
+
+  // Handle sending a message
+  const handleSendMessage = useCallback(async (messageText) => {
+    if (!activeNodeId) {
+      return;
+    }
+
+    try {
+      await sendMessage(messageText, async (context) => {
+        // Try Gemini first, fallback to mock if no API key
+        try {
+          return await sendToGemini(context, {
+            model: 'gemini-2.0-flash-exp',
+            temperature: 0.7,
+            maxTokens: 2000
+          });
+        } catch (geminiError) {
+          console.warn('Gemini API not available, using mock:', geminiError.message);
+          return await sendToMockLLM(context);
+        }
+      });
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    }
+  }, [activeNodeId, sendMessage, sendToGemini, sendToMockLLM]);
+
+  // Handle branching from a node
+  const handleBranchFromNode = useCallback(async (nodeId, messageText) => {
+    try {
+      await branchFromNode(nodeId, messageText, async (context) => {
+        // Try Gemini first, fallback to mock if no API key
+        try {
+          return await sendToGemini(context, {
+            model: 'gemini-2.0-flash-exp',
+            temperature: 0.7,
+            maxTokens: 2000
+          });
+        } catch (geminiError) {
+          console.warn('Gemini API not available, using mock:', geminiError.message);
+          return await sendToMockLLM(context);
+        }
+      });
+    } catch (err) {
+      console.error('Failed to branch from node:', err);
+    }
+  }, [branchFromNode, sendToGemini, sendToMockLLM]);
+
+  // Handle node click
+  const onNodeClick = useCallback((event, node) => {
+    setSelectedNode(node.id);
+  }, [setSelectedNode]);
+
+  // Handle edge click (for branching)
+  const onEdgeClick = useCallback((event, edge) => {
+    // Could implement edge-based interactions here
+  }, []);
+
+  return (
+    <div className="chattree-container">
+      <div className="chattree-main">
+        <ReactFlow
+          nodes={reactFlowNodes}
+          edges={reactFlowEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onNodeClick={onNodeClick}
+          onEdgeClick={onEdgeClick}
+          nodeTypes={nodeTypes}
+          fitView
+          attributionPosition="bottom-left"
+          defaultViewport={{ x: 0, y: 0, zoom: 0.6 }}
+          minZoom={0.1}
+          maxZoom={2}
+        >
+          <Controls />
+          <MiniMap 
+            nodeColor={(node) => {
+              const nodeData = node.data;
+              if (nodeData.isActive) return '#3b82f6';
+              if (nodeData.isSelected) return '#10b981';
+              if (nodeData.node.role === 'assistant') return '#64748b';
+              return '#6366f1';
+            }}
+          />
+          <Background variant="dots" gap={12} size={1} />
+        </ReactFlow>
+      </div>
+      
+      <div className="chattree-sidebar">
+        <ContextPanel />
+        <MessageInput 
+          onSendMessage={handleSendMessage}
+          onBranchFromNode={handleBranchFromNode}
+          isLoading={isLoading}
+          error={error}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Wrap with ReactFlowProvider for proper context
+export default function ChatTreeWithProvider() {
+  return (
+    <ReactFlowProvider>
+      <ChatTree />
+    </ReactFlowProvider>
+  );
+}
