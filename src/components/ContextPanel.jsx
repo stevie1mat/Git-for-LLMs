@@ -72,6 +72,11 @@ function ContextPanel({ showConversationOnly = false }) {
     <div className="context-panel">
       {contextSummary && (
         <div className="context-summary">
+          <div className="memory-type-indicator">
+            <span className={`memory-type ${contextSummary.memoryType}`}>
+              {contextSummary.memoryType === 'hierarchical' ? '🧠 Main Branch (Full Memory)' : '🔒 Sub-Branch (Isolated Memory)'}
+            </span>
+          </div>
           <div className="summary-stats">
             <div className="stat">
               <span className="stat-label">Pinned Nodes:</span>
@@ -81,6 +86,12 @@ function ContextPanel({ showConversationOnly = false }) {
               <span className="stat-label">Ancestor Path:</span>
               <span className="stat-value">{contextSummary.ancestorCount}</span>
             </div>
+            {contextSummary.descendantCount > 0 && (
+              <div className="stat">
+                <span className="stat-label">Sub-branch Memories:</span>
+                <span className="stat-value">{contextSummary.descendantCount}</span>
+              </div>
+            )}
             <div className="stat">
               <span className="stat-label">Total Context:</span>
               <span className="stat-value">{contextSummary.totalContextNodes}</span>
