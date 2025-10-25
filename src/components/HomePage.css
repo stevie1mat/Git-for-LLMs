@@ -1,0 +1,810 @@
+/* Homepage Styles - Dark Theme inspired by Martin app */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap');
+
+.homepage {
+  min-height: 100vh;
+  background: #000000;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 300;
+  position: relative;
+}
+
+/* Add simple line background */
+.homepage::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 98px,
+      rgba(255, 107, 53, 0.3) 100px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 98px,
+      rgba(255, 107, 53, 0.3) 100px
+    );
+  z-index: -1;
+}
+
+/* Header Styles */
+.homepage-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.hexagon {
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hexagon-inner {
+  width: 16px;
+  height: 16px;
+  background: #1a1a1a;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+.header-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #ff6b35;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-login {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-login:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-get-started {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-get-started:hover {
+  background: #2a2a2a;
+  border-color: #555555;
+  transform: translateY(-1px);
+}
+
+/* Main Content */
+.homepage-main {
+  padding-top: 160px;
+  min-height: 100vh;
+}
+
+.homepage-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  align-items: center;
+}
+
+/* Left Side - Branding */
+.homepage-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+.main-headline {
+  font-family: 'Inter', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.highlight {
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tree-icon {
+  font-size: 3.5rem;
+  margin-left: 0.5rem;
+  display: inline-block;
+  animation: gentle-sway 3s ease-in-out infinite;
+}
+
+.main-description {
+  font-family: 'Manjari', sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.btn-try-now {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-try-now:hover {
+  background: #2a2a2a;
+  border-color: #555555;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Right Side - Terminal Demo */
+.homepage-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-demo {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-header {
+  background: #2a2a2a;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #333333;
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.control-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.control-dot.red {
+  background: #ff5f56;
+}
+
+.control-dot.yellow {
+  background: #ffbd2e;
+}
+
+.control-dot.green {
+  background: #27ca3f;
+}
+
+.terminal-title {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.terminal-content {
+  padding: 1.5rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.terminal-line {
+  margin-bottom: 0.5rem;
+}
+
+.prompt {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.command {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.terminal-output {
+  margin: 0.5rem 0 1rem 0;
+  padding-left: 1rem;
+}
+
+.output-line {
+  color: #a0a0a0;
+  margin-bottom: 0.25rem;
+}
+
+.output-line.success {
+  color: #4ade80;
+}
+
+.output-line:last-child {
+  margin-bottom: 0;
+}
+
+
+
+.flow-widget {
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(60, 60, 60, 0.6);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(80, 80, 80, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  max-width: 95%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+  margin: 0 auto;
+}
+
+.flow-widget:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(100, 100, 100, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-color: rgba(80, 80, 80, 0.8);
+}
+
+.flow-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* New Floating Widgets */
+.floating-widgets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.new-widget {
+  position: absolute;
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(120, 120, 120, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.new-widget:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: rgba(140, 140, 140, 0.4);
+}
+
+/* New Widget Positioning */
+.conversation-tree-widget {
+  top: 90%;
+  left: -80px;
+  width: 240px;
+  transform: translateY(-50%);
+}
+
+.branch-explorer-widget {
+  bottom: 50%;
+  right: -120px;
+  width: 250px;
+  transform: translateY(50%);
+}
+
+/* New Widget Content Styles */
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.widget-header h3 {
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 0;
+  color: #ffffff;
+}
+
+.widget-dots {
+  color: #888888;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+/* Conversation Tree Widget Styles */
+.conversation-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.conversation-item {
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 6px;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.conversation-item.active {
+  background: rgba(255, 107, 53, 0.2);
+  border: 1px solid rgba(255, 107, 53, 0.4);
+}
+
+.item-content {
+  font-size: 0.875rem;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.item-meta {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+}
+
+/* Branch Explorer Widget Styles */
+.branch-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.branch-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.branch-item:hover {
+  background: rgba(50, 50, 50, 0.8);
+}
+
+.branch-icon {
+  font-size: 1.25rem;
+}
+
+.branch-text {
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+
+
+/* Responsive Design */
+@media (min-width: 1600px) {
+  /* Extra large screens - push widgets even further out */
+  .search-widget {
+    right: -120px;
+  }
+  
+  
+  .tree-widget {
+    left: -140px;
+  }
+  
+  .branch-widget {
+    right: -140px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .homepage-content {
+    max-width: 1200px;
+    gap: 4rem;
+  }
+  
+  .header-content {
+    max-width: 1200px;
+  }
+  
+  /* Adjust widget positioning for medium screens */
+  .tree-widget {
+    left: -80px;
+  }
+  
+  .branch-widget {
+    right: -80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    max-width: 100%;
+  }
+  
+  .main-headline {
+    font-size: 2.5rem;
+  }
+  
+  .header-content {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  .header-nav {
+    display: none;
+  }
+  
+  .flow-widget {
+    padding: 1rem;
+  }
+  
+  /* Hide floating widgets on mobile */
+  .floating-widgets {
+    display: none;
+  }
+}
+
+/* Tree Icon Animation */
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+/* Features Section */
+.features-section {
+  padding: 6rem 0;
+  background: #000000;
+}
+
+.features-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2rem;
+}
+
+.feature-card {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(60, 60, 60, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(100, 100, 100, 0.5);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.feature-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-icons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.feature-icon {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff6b35;
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.feature-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.feature-headline {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1.5rem 0;
+}
+
+.feature-demo {
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid rgba(80, 80, 80, 0.3);
+}
+
+/* Tree Navigation Demo */
+.demo-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tree-node {
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.tree-node.active {
+  background: rgba(255, 107, 53, 0.2);
+  border-color: rgba(255, 107, 53, 0.5);
+}
+
+.tree-branches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.tree-branch {
+  color: #a0a0a0;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+}
+
+/* Context Memory Demo */
+.context-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.context-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 6px;
+}
+
+.context-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff6b35;
+  border-radius: 50%;
+}
+
+.context-text {
+  color: #ffffff;
+  font-size: 0.875rem;
+}
+
+/* Branch Explorer Demo */
+.branch-explorer-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.branch-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+  padding-bottom: 1rem;
+}
+
+.branch-tab {
+  padding: 0.5rem 1rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 6px;
+  color: #a0a0a0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.branch-tab.active {
+  background: rgba(255, 107, 53, 0.2);
+  color: #ff6b35;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.branch-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.branch-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.branch-item:hover {
+  background: rgba(50, 50, 50, 0.8);
+}
+
+.branch-icon {
+  font-size: 1.25rem;
+}
+
+.branch-text {
+  color: #ffffff;
+  font-size: 0.875rem;
+}
+
+/* Responsive Design for Features */
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-headline {
+    font-size: 1.25rem;
+  }
+}
+
+/* Hero Footer */
+.hero-footer {
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 7rem;
+}
+
+.author-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #666666;
+  margin: 0;
+}
+
+.author-link {
+  color: #666666;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.author-link:hover {
+  color: #888888;
+  text-decoration: underline;
+}
