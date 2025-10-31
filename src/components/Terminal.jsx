@@ -28,6 +28,9 @@ function Terminal({ isVisible, onToggle, docked = false }) {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isProcessing, setIsProcessing] = useState(false);
   const terminalRef = useRef(null);
+  const containerRef = useRef(null);
+  const [dockHeightPct, setDockHeightPct] = useState(0.5);
+  const isDraggingRef = useRef(false);
   const inputRef = useRef(null);
 
   // Focus input when terminal becomes visible
@@ -43,6 +46,31 @@ function Terminal({ isVisible, onToggle, docked = false }) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [history]);
+
+  // Resize handlers for docked mode
+  const onResizeMouseDown = (e) => {
+    if (!docked) return;
+    isDraggingRef.current = true;
+    e.preventDefault();
+    window.addEventListener('mousemove', onResizeMouseMove);
+    window.addEventListener('mouseup', onResizeMouseUp, { once: true });
+  };
+
+  const onResizeMouseMove = (e) => {
+    if (!isDraggingRef.current || !containerRef.current) return;
+    const parent = containerRef.current.parentElement; // .langfork-main
+    if (!parent) return;
+    const rect = parent.getBoundingClientRect();
+    const distanceFromBottom = rect.bottom - e.clientY; // pixels
+    const clamped = Math.max(180, Math.min(rect.height - 80, distanceFromBottom));
+    const pct = clamped / rect.height;
+    setDockHeightPct(pct);
+  };
+
+  const onResizeMouseUp = () => {
+    isDraggingRef.current = false;
+    window.removeEventListener('mousemove', onResizeMouseMove);
+  };
 
   const addToHistory = (type, content, timestamp = new Date()) => {
     setHistory(prev => [...prev, { type, content, timestamp }]);
@@ -413,7 +441,14 @@ Current Status:
   if (!isVisible) return null;
 
   return (
-    <div className={`terminal-container${docked ? ' terminal-container--docked' : ''}`}>
+    <div
+      ref={containerRef}
+      className={`terminal-container${docked ? ' terminal-container--docked' : ''}`}
+      style={docked ? { height: `${Math.round(dockHeightPct * 100)}%` } : undefined}
+    >
+      {docked && (
+        <div className="terminal-resize-handle" onMouseDown={onResizeMouseDown} />
+      )}
       <div className="terminal-header">
         <div className="terminal-title">
           <span className="terminal-icon">⚡</span>
