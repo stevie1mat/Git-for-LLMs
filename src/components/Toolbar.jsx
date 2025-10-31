@@ -11,6 +11,7 @@ function Toolbar() {
   return (
     <div className="toolbar">
       <div className="toolbar-left">
+        <img src="/assets/logo.svg" alt="LangFork" className="toolbar-logo" />
         <h1 className="toolbar-title">LangFork</h1>
         <span className="toolbar-subtitle">Git for LLM Conversations</span>
       </div>
