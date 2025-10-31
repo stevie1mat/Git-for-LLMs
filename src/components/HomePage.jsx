@@ -14,6 +14,7 @@ function HomePage() {
   };
 
   return (
+    <>
     <div className="homepage">
       {/* Header/Navigation */}
       <header className="homepage-header">
@@ -35,7 +36,7 @@ function HomePage() {
           </nav>
           
           <div className="header-actions">
-            <button className="btn-login">Log in</button>
+            <button className="btn-login" onClick={() => navigate('/auth')}>Log in</button>
             <button className="btn-get-started" onClick={handleGetStarted}>
               Get Started
             </button>
@@ -111,6 +112,8 @@ function HomePage() {
         </div>
       </main>
     </div>
+    
+    </>
   );
 }
 
