@@ -6,7 +6,7 @@ import { useLLM } from '../hooks/useLLM';
  * Terminal component for command-line interface
  * Provides Git-like commands for tree operations
  */
-function Terminal({ isVisible, onToggle }) {
+function Terminal({ isVisible, onToggle, docked = false }) {
   const {
     nodes,
     activeNodeId,
@@ -413,7 +413,7 @@ Current Status:
   if (!isVisible) return null;
 
   return (
-    <div className="terminal-container">
+    <div className={`terminal-container${docked ? ' terminal-container--docked' : ''}`}>
       <div className="terminal-header">
         <div className="terminal-title">
           <span className="terminal-icon">⚡</span>

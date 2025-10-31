@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
-  MiniMap,
   Controls,
   Background,
   useNodesState,
@@ -252,17 +251,22 @@ function ChatTreeInner() {
           maxZoom={2}
         >
           <Controls />
-          <MiniMap 
-            nodeColor={(node) => {
-              const nodeData = node.data;
-              if (nodeData.isActive) return '#3b82f6';
-              if (nodeData.isSelected) return '#10b981';
-              if (nodeData.node.role === 'assistant') return '#64748b';
-              return '#6366f1';
-            }}
-          />
           <Background variant="dots" gap={12} size={1} />
         </ReactFlow>
+        {/* Terminal button placed where the minimap used to be (bottom-right inside canvas) */}
+        <button 
+          className="terminal-rect-button"
+          onClick={() => setIsTerminalVisible(!isTerminalVisible)}
+          title="Open Terminal"
+        >
+          LangFork Terminal
+        </button>
+        {/* Docked terminal inside canvas area */}
+        <Terminal 
+          isVisible={isTerminalVisible}
+          onToggle={() => setIsTerminalVisible(!isTerminalVisible)}
+          docked
+        />
       </div>
       
       <div className="langfork-sidebar">
@@ -294,20 +298,9 @@ function ChatTreeInner() {
         />
       </div>
       
-      {/* Terminal Toggle Button */}
-      <button 
-        className="terminal-toggle"
-        onClick={() => setIsTerminalVisible(!isTerminalVisible)}
-        title="Open Terminal"
-      >
-        ⚡
-      </button>
+      {/* Removed floating toggle in favor of bottom-right rectangle button */}
       
-      {/* Terminal Component */}
-      <Terminal 
-        isVisible={isTerminalVisible}
-        onToggle={() => setIsTerminalVisible(!isTerminalVisible)}
-      />
+      {/* Removed global full-screen Terminal */}
     </div>
   );
 }

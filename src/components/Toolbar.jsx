@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 import SearchBar from './SearchBar';
 
 /**
@@ -6,7 +8,12 @@ import SearchBar from './SearchBar';
  * Provides project management and tree operations
  */
 function Toolbar() {
-  // Toolbar component - currently minimal with just search functionality
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/auth');
+  };
 
   return (
     <div className="toolbar">
@@ -22,6 +29,9 @@ function Toolbar() {
 
       <div className="toolbar-right">
         <SearchBar />
+        <div className="toolbar-actions" style={{ marginLeft: 12 }}>
+          <button className="toolbar-button" onClick={handleLogout}>Sign out</button>
+        </div>
       </div>
     </div>
   );

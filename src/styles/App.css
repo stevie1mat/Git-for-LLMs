@@ -266,6 +266,26 @@ body {
   background: #0a0a0a;
 }
 
+/* Terminal rectangular button placed bottom-right inside canvas */
+.terminal-rect-button {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  background: #0f0f0f;
+  color: #ffffff;
+  border: 1px solid #222222;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.terminal-rect-button:hover {
+  background: #151515;
+  border-color: #2a2a2a;
+}
+
 .langfork-sidebar {
   width: 480px;
   background: #1a1a1a;
@@ -982,6 +1002,21 @@ body {
   flex-direction: column;
 }
 
+/* Docked terminal variant: quarter-size inside canvas */
+.terminal-container--docked {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 25%;
+  height: 25%;
+  min-width: 320px;
+  min-height: 220px;
+  z-index: 10;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .terminal-header {
   display: flex;
   justify-content: space-between;
@@ -1137,33 +1172,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Terminal Toggle Button */
-.terminal-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background: #00ff00;
-  color: #000;
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
-  transition: all 0.3s ease;
-  z-index: 999;
-}
-
-.terminal-toggle:hover {
-  background: #00cc00;
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 255, 0, 0.4);
-}
-
-.terminal-toggle:active {
-  transform: scale(0.95);
-}
+/* Removed old floating circular toggle */
 
 /* Terminal Responsive */
 @media (max-width: 768px) {
