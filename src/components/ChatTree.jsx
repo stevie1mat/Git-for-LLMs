@@ -15,6 +15,7 @@ import { useLLM } from '../hooks/useLLM';
 import MessageNode from './MessageNode';
 import MessageInput from './MessageInput';
 import ContextPanel from './ContextPanel';
+import Terminal from './Terminal';
 
 // Custom node types
 const nodeTypes = {
@@ -43,6 +44,9 @@ function ChatTreeInner() {
   
   // State for collapsible context panel
   const [isContextPanelCollapsed, setIsContextPanelCollapsed] = useState(false);
+  
+  // State for terminal
+  const [isTerminalVisible, setIsTerminalVisible] = useState(false);
 
   // Convert tree nodes to React Flow format
   const [reactFlowNodes, setNodes, onNodesChange] = useNodesState([]);
@@ -231,8 +235,8 @@ function ChatTreeInner() {
   }, []);
 
   return (
-    <div className="chattree-container">
-      <div className="chattree-main">
+    <div className="langfork-container">
+      <div className="langfork-main">
         <ReactFlow
           nodes={reactFlowNodes}
           edges={reactFlowEdges}
@@ -261,7 +265,7 @@ function ChatTreeInner() {
         </ReactFlow>
       </div>
       
-      <div className="chattree-sidebar">
+      <div className="langfork-sidebar">
         {/* Collapsible Context Panel */}
         <div className={`context-panel-container ${isContextPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="context-panel-header">
@@ -289,6 +293,21 @@ function ChatTreeInner() {
           error={error}
         />
       </div>
+      
+      {/* Terminal Toggle Button */}
+      <button 
+        className="terminal-toggle"
+        onClick={() => setIsTerminalVisible(!isTerminalVisible)}
+        title="Open Terminal"
+      >
+        ⚡
+      </button>
+      
+      {/* Terminal Component */}
+      <Terminal 
+        isVisible={isTerminalVisible}
+        onToggle={() => setIsTerminalVisible(!isTerminalVisible)}
+      />
     </div>
   );
 }

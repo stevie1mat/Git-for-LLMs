@@ -1,6 +1,6 @@
 # Hierarchical Memory System Test
 
-This document demonstrates how the hierarchical memory system works in ChaTree.
+This document demonstrates how the hierarchical memory system works in LangFork.
 
 ## Scenario: Salad Benefits Memory Issue
 

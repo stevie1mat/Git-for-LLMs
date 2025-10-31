@@ -13,7 +13,7 @@
    - Copy the generated API key
 
 3. **Add to Your Environment**
-   - Create a `.env` file in your ChatTree project root
+   - Create a `.env` file in your LangFork project root
    - Add your API key:
    ```env
    REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
@@ -35,7 +35,7 @@
 ## Pricing (as of 2024)
 
 - **Gemini Flash 2.0**: ~$0.075 per 1M input tokens, ~$0.30 per 1M output tokens
-- **Very cost-effective** for ChatTree's use case
+- **Very cost-effective** for LangFork's use case
 - Free tier available for testing
 
 ## Troubleshooting

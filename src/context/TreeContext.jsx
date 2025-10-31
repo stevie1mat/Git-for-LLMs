@@ -4,12 +4,12 @@ import { saveTree, loadTree } from '../utils/storage';
 
 // Initial state
 const initialState = {
-  nodes: [],
-  activeNodeId: null,
-  selectedNodeId: null,
-  isLoading: false,
-  error: null,
-  projectId: 'default-project'
+  nodes: [], // Array of tree nodes
+  activeNodeId: null, // Currently active node
+  selectedNodeId: null, // Currently selected node
+  isLoading: false, // Loading state
+  error: null, // Error state
+  projectId: 'default-project' // Current project ID
 };
 
 // Action types
@@ -237,7 +237,7 @@ export function TreeProvider({ children }) {
       const rootNode = addNode({
         parentId: null,
         role: 'user',
-        content: 'Welcome to ChatTree! Start your conversation here.',
+        content: 'Welcome to LangFork! Start your conversation here.',
         metadata: { isPinned: false }
       });
       // activeNodeId will be set automatically by the ADD_NODE action

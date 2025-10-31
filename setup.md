@@ -1,4 +1,4 @@
-# ChatTree Setup Guide
+# LangFork Setup Guide
 
 ## Quick Start
 

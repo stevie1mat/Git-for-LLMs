@@ -1,10 +1,10 @@
 /**
- * Storage utilities for ChatTree
+ * Storage utilities for LangFork
  * Handles localStorage operations for tree persistence
  */
 
-const STORAGE_KEY = 'chattree_project';
-const PROJECTS_KEY = 'chattree_projects_list';
+const STORAGE_KEY = 'langfork_project';
+const PROJECTS_KEY = 'langfork_projects_list';
 
 /**
  * Saves a tree to localStorage

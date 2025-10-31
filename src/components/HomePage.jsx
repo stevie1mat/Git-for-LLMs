@@ -24,7 +24,7 @@ function HomePage() {
                 <div className="hexagon-inner"></div>
               </div>
             </div>
-            <span className="logo-text">ChaTree</span>
+            <span className="logo-text">LangFork</span>
           </div>
           
           <nav className="header-nav">
@@ -76,7 +76,7 @@ function HomePage() {
               </div>
               <div className="terminal-content">
                 <div className="terminal-line">
-                  <span className="prompt">~/chattree</span> <span className="command">git branch</span>
+                  <span className="prompt">~/langfork</span> <span className="command">git branch</span>
                 </div>
                 <div className="terminal-output">
                   <div className="output-line">* main</div>
@@ -85,13 +85,13 @@ function HomePage() {
                   <div className="output-line">  state-management</div>
                 </div>
                 <div className="terminal-line">
-                  <span className="prompt">~/chattree</span> <span className="command">git checkout react-discussion</span>
+                  <span className="prompt">~/langfork</span> <span className="command">git checkout react-discussion</span>
                 </div>
                 <div className="terminal-output">
                   <div className="output-line success">Switched to branch 'react-discussion'</div>
                 </div>
                 <div className="terminal-line">
-                  <span className="prompt">~/chattree</span> <span className="command">git log --oneline</span>
+                  <span className="prompt">~/langfork</span> <span className="command">git log --oneline</span>
                 </div>
                 <div className="terminal-output">
                   <div className="output-line">a1b2c3d How do I use React hooks?</div>

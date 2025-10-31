@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBar from './SearchBar';
 
 /**
- * Toolbar component for ChatTree
+ * Toolbar component for LangFork
  * Provides project management and tree operations
  */
 function Toolbar() {
@@ -11,7 +11,7 @@ function Toolbar() {
   return (
     <div className="toolbar">
       <div className="toolbar-left">
-        <h1 className="toolbar-title">ChatTree</h1>
+        <h1 className="toolbar-title">LangFork</h1>
         <span className="toolbar-subtitle">Git for LLM Conversations</span>
       </div>
 

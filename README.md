@@ -1,10 +1,10 @@
-# ChaTree - Git for LLM
+# LangFork - Git for LLM
 
 > **Organize, explore, and branch your AI conversations like never before.**
 
-ChaTree is a revolutionary conversation management system that brings the power of version control to AI interactions. Create complex dialogue trees with intelligent context management and seamless navigation through your chat history.
+LangFork is a revolutionary conversation management system that brings the power of version control to AI interactions. Create complex dialogue trees with intelligent context management and seamless navigation through your chat history.
 
-![ChaTree Demo](public/assets/flow.png)
+![LangFork Demo](public/assets/flow.png)
 
 ## 🚀 Features
 
@@ -42,8 +42,8 @@ ChaTree is a revolutionary conversation management system that brings the power 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/chattree.git
-cd chattree
+git clone https://github.com/yourusername/langfork.git
+cd langfork
 
 # Install dependencies
 npm install
@@ -188,7 +188,7 @@ if (isInMainBranch) {
 ### Project Structure
 
 ```
-chattree/
+langfork/
 ├── public/              # Static assets
 ├── src/                 # Source code
 ├── build/               # Production build
@@ -323,4 +323,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ by [stevenmathew.dev](https://stevenmathew.dev)**
 
-*ChaTree - Where conversations branch and memories persist.*
+*LangFork - Where conversations branch and memories persist.*

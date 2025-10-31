@@ -1,4 +1,4 @@
-/* ChatTree Main Styles - Sleek Black & White Theme */
+/* LangFork Main Styles - Sleek Black & White Theme */
 
 * {
   box-sizing: border-box;
@@ -246,20 +246,20 @@ body {
   font-style: italic;
 }
 
-/* Main ChatTree Container */
-.chattree-container {
+/* Main LangFork Container */
+.langfork-container {
   flex: 1;
   display: flex;
   overflow: hidden;
 }
 
-.chattree-main {
+.langfork-main {
   flex: 1;
   position: relative;
   background: #0a0a0a;
 }
 
-.chattree-sidebar {
+.langfork-sidebar {
   width: 480px;
   background: #1a1a1a;
   border-left: 1px solid #2a2a2a;
@@ -907,7 +907,7 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .chattree-sidebar {
+  .langfork-sidebar {
     width: 400px;
   }
   
@@ -935,11 +935,11 @@ body {
 }
 
 @media (max-width: 480px) {
-  .chattree-container {
+  .langfork-container {
     flex-direction: column;
   }
   
-  .chattree-sidebar {
+  .langfork-sidebar {
     width: 100%;
     height: 280px;
   }
@@ -956,5 +956,229 @@ body {
   .search-container {
     width: 150px;
     max-width: 150px;
+  }
+}
+
+/* Terminal Styles */
+.terminal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+  color: #00ff00;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #00ff00;
+}
+
+.terminal-icon {
+  font-size: 16px;
+}
+
+.terminal-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.terminal-close:hover {
+  background: #333;
+  color: #fff;
+}
+
+.terminal-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #0a0a0a;
+}
+
+.terminal-welcome {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border-left: 4px solid #00ff00;
+}
+
+.welcome-text {
+  color: #00ff00;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.welcome-subtitle {
+  color: #888;
+  font-size: 12px;
+}
+
+.welcome-subtitle code {
+  background: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #00ff00;
+}
+
+.terminal-entry {
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.terminal-entry.input {
+  color: #00ff00;
+  font-weight: 600;
+}
+
+.terminal-entry.output {
+  color: #fff;
+  white-space: pre-wrap;
+}
+
+.terminal-entry.error {
+  color: #ff4444;
+  white-space: pre-wrap;
+}
+
+.terminal-content {
+  font-family: inherit;
+}
+
+.terminal-processing {
+  color: #00ff00;
+  font-style: italic;
+}
+
+.processing-dots::after {
+  content: '...';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.terminal-input-container {
+  padding: 20px;
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+.terminal-form {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-prompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.prompt-symbol {
+  color: #00ff00;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  padding: 4px 0;
+}
+
+.terminal-input::placeholder {
+  color: #666;
+}
+
+.terminal-input:disabled {
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Terminal Toggle Button */
+.terminal-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: #00ff00;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.terminal-toggle:hover {
+  background: #00cc00;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 255, 0, 0.4);
+}
+
+.terminal-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Terminal Responsive */
+@media (max-width: 768px) {
+  .terminal-container {
+    font-size: 12px;
+  }
+  
+  .terminal-header {
+    padding: 8px 16px;
+  }
+  
+  .terminal-body {
+    padding: 16px;
+  }
+  
+  .terminal-input-container {
+    padding: 16px;
+  }
+  
+  .terminal-toggle {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
   }
 }
